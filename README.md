@@ -4,10 +4,15 @@
 
 ## 📌 Indice
 - [Introduzione](#introduzione)
-- [Architettura](#architrattura)
+- [Architettura](#architettura)
+- [Come funziona la Progressive Disclosure](#come-funziona-la-progressive-disclosure)
+- [Skills vs CLAUDE.md vs Hooks vs Subagents](#skills-vs-claudemd-vs-hooks-vs-subagents)
 - [Prerequisiti](#prerequisiti)
 - [Installazione](#installazione)
 - [Come usare MigraAPI](#come-usare-migraapi)
+- [Distribuzione come plugin](#distribuzione-come-plugin)
+- [Enterprise Managed Settings](#enterprise-managed-settings)
+- [Best practice di sicurezza](#best-practice-di-sicurezza)
 - [Esempi](#esempi)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap e contributi](#roadmap-e-contributi)
@@ -31,7 +36,7 @@ Utente → Orchestratore (Claude Code) → Subagent scanner → Subagent rewrite
 
 1. **Skill `api-migration`**  
    - Contiene le regole di migrazione (mapping old → new), i pattern regex e lo script scanner.  
-   - Segue il meccanismo di **progressive disclosure**: solo `name` e `description` sono caricati all’avvio; il corpo completo viene letto quando la skill viene attivata.
+   - Segue il meccanismo di **progressive disclosure** (vedi sotto).
 
 2. **Subagent `scanner`**  
    - Isolato, riceve un file e restituisce JSON con le occorrenze deprecate.  
@@ -49,15 +54,30 @@ Utente → Orchestratore (Claude Code) → Subagent scanner → Subagent rewrite
    - L’agente principale (Claude Code) carica la skill e coordina i subagent.  
    - Può eseguire i subagent in **parallelo** su più file per massimizzare l’efficienza.
 
-### Progressive Disclosure in azione
+## Come funziona la Progressive Disclosure
 
-1. **Discovery**: Claude pre-carica solo `name` e `description` della skill.  
-2. **Activation**: Quando l’utente chiede di migrare, Claude legge l’intero `SKILL.md`.  
-3. **Execution**: Se necessario, esegue `scanner.py` o carica file aggiuntivi (`migration-rules.json`).
+La progressive disclosure è un meccanismo a 3 livelli che ottimizza l’uso del contesto da parte di Claude:
 
-### Gestione del contesto
+| Livello | Descrizione |
+|---------|-------------|
+| **1. Discovery** | All’avvio, Claude pre-carica solo `name` e `description` della skill nel system prompt. Consumo di contesto minimo. |
+| **2. Activation** | Quando il task corrente corrisponde alla descrizione (es. l’utente chiede di migrare un’API), Claude legge l’intero file `SKILL.md` (istruzioni, regole, esempi). |
+| **3. Execution** | Se necessario, Claude carica file aggiuntivi (`migration-rules.json`, `regex-patterns.md`) ed esegue script esterni (`scanner.py`) che non consumano contesto aggiuntivo. |
 
-Grazie ai subagent, i file sorgente non vengono mai caricati nella context window principale. Ogni subagent lavora in una context window separata e restituisce solo un riassunto strutturato (JSON). Questo previene l’esplosione del contesto in progetti grandi.
+**Vantaggi**: Skills complesse non appesantiscono il contesto in conversazioni generiche. Solo quando servono vengono caricate.
+
+## Skills vs CLAUDE.md vs Hooks vs Subagents
+
+Questa tabella confronta le principali funzionalità di Claude Code:
+
+| Funzionalità | Scopo | Quando usarla | Esempio |
+|--------------|-------|---------------|---------|
+| **Skills** | Istruzioni dinamiche e riutilizzabili per task specializzati | Workflow ripetuti che richiedono conoscenza specifica (es. migrazione API) | `api-migration` skill con regole di trasformazione |
+| **CLAUDE.md** | Configurazione generale del progetto (sempre attiva) | Impostazioni di progetto, preferenze di stile, comandi di build | Ignorare certi file, impostare variabili d’ambiente |
+| **Hooks** | Automazioni basate su eventi (pre/post esecuzione) | Trigger automatici come “prima di ogni modifica, fai backup” | `pre-edit` hook che salva una copia del file |
+| **Subagents** | Delegazione di task a context window isolate | Task che esploderebbero il contesto principale, esecuzione parallela | Scanner, rewriter, validator in isolamento |
+
+**Perché le Skills sono più efficienti**: Consentono di insegnare una volta sola a Claude come fare un task complesso, senza ripetere istruzioni ogni volta. In combinazione con Subagents, si ottiene scalabilità e pulizia del contesto.
 
 ## Prerequisiti
 
@@ -71,44 +91,70 @@ Grazie ai subagent, i file sorgente non vengono mai caricati nella context windo
 ```bash
 git clone https://github.com/tuo-username/MigraAPI
 cd MigraAPI
-# Nessuna dipendenza esterna necessaria – tutto è bash/python standard
+# Nessuna dipendenza esterna – tutto è bash/python standard
 ```
 
 ## Come usare MigraAPI
 
 ### Demo automatica con script orchestratore
 
-Esegui lo script demo che simula l’orchestrazione (senza Claude Code, ma mostrando la logica):
-
 ```bash
 ./demo-script.sh
 ```
 
-Questo script:
-- Scansiona tutti i file in `examples/before/` usando lo scanner integrato.
-- Simula l’applicazione delle modifiche (nel reale verrebbe chiamato il subagent `rewriter`).
-- Simula la validazione.
-- Produce un report finale JSON.
+Esegue scanning simulato e produce un report `migration_report.json`.
 
 ### Utilizzo reale con Claude Code
 
-1. Avvia Claude Code nel progetto:
+1. Avvia Claude Code:
    ```bash
    claude
    ```
-
-2. Attiva la skill (automaticamente se chiedi una migrazione):
+2. Chiedi la migrazione:
    ```
    Migra il codice in examples/before dalla vecchia API alla nuova usando la skill api-migration
    ```
+Claude attiverà la skill, invocherà i subagent in parallelo e restituirà il risultato.
 
-3. Claude Code:
-   - Carica la skill `api-migration`.
-   - Esegue lo scanner tramite il subagent `scanner` su ogni file (in parallelo).
-   - Raccoglie i JSON.
-   - Invoca il subagent `rewriter` per applicare le modifiche.
-   - Invoca il subagent `validator` per controllare i risultati.
-   - Produce un report finale.
+## Distribuzione come plugin
+
+Puoi trasformare MigraAPI in un plugin distribuibile per Claude Code:
+
+1. **Prepara la struttura** (già conforme):
+   ```
+   .claude/skills/api-migration/
+   .claude/agents/
+   ```
+
+2. **Aggiungi il repository a un marketplace** (esempio con marketplace ufficiale):
+   ```bash
+   /plugin marketplace add anthropics/skills
+   ```
+
+3. **Installa il plugin** (una volta che lo hai pubblicato):
+   ```bash
+   /plugin install migrapi@your-org/skills
+   ```
+
+Per creare un marketplace personale, consulta la [documentazione ufficiale Anthropic](https://docs.anthropic.com/claude-code/plugins).
+
+## Enterprise Managed Settings
+
+In contesti aziendali, le Skills possono essere distribuite centralmente a tutti i membri del team:
+
+- **Managed settings** permettono di preinstallare skill su tutte le workstation.
+- Un amministratore può definire una policy che forza l’uso della skill `api-migration` in determinati repository.
+- Le skill vengono aggiornate automaticamente quando il repository centrale cambia.
+
+Questo approccio garantisce coerenza e riduce il carico di formazione.
+
+## Best practice di sicurezza
+
+- **Verifica sempre le skill da fonti esterne**: Prima di installare una skill da un repository non ufficiale, ispeziona il contenuto (soprattutto script eseguiti).
+- **Usa `allowed-tools`** per limitare l’accesso a strumenti sensibili (es. `Write`, `Bash`). In questa skill, lo scanner ha solo strumenti di lettura.
+- **Non includere secret o chiavi API** nei file della skill.
+- **Esegui script in sandbox** quando possibile (es. container o ambienti isolati).
+- **Audita le modifiche**: Per migrazioni critiche, usa il subagent `validator` per verificare ogni modifica prima di applicarla.
 
 ## Esempi
 
@@ -126,18 +172,69 @@ client = Client(api_key="test")
 user = client.fetch_user_by_id(user_id=123)
 ```
 
+Puoi eseguire il test automatico per verificare le regole:
+```bash
+python tests/test_migration.py
+```
+
 ## Troubleshooting
 
-**Skill non si attiva** – Verifica che il nome `api-migration` e la descrizione corrispondano alla richiesta.  
-**Scanner non trova occorrenze** – Controlla i pattern in `regex-patterns.md` e aggiornali.  
-**Subagent non riesce a scrivere** – Assicurati che `allowed-tools` includa `Write` e `Edit`.  
-**Validazione fallisce** – Controlla il JSON di errore; potrebbe indicare sintassi errata dopo la riscrittura.
+### La skill non si attiva
+
+**Sintomo**: Claude non usa la skill anche se il task è pertinente.
+
+**Soluzioni**:
+- Controlla il frontmatter di `SKILL.md`: `name` e `description` devono essere chiari e corrispondere al task.
+- Verifica che la cartella della skill sia posizionata in `.claude/skills/api-migration/`.
+- Prova a richiamare esplicitamente la skill: “Usa la skill api-migration per...”
+
+### Lo scanner non trova occorrenze
+
+**Sintomo**: `scanner.py` restituisce `"files": []`.
+
+**Soluzioni**:
+- Aggiorna i pattern in `regex-patterns.md` e `scanner.py` (sezione `PATTERNS`).
+- Assicurati che i file da analizzare abbiano estensione `.py`, `.js`, `.mjs`, `.cjs`.
+- Testa manualmente: `python .claude/skills/api-migration/scripts/scanner.py <file>`
+
+### Errori di scrittura del rewriter
+
+**Sintomo**: Il subagent `rewriter` restituisce `"status": "error"`.
+
+**Soluzioni**:
+- Verifica che i permessi del file consentano la scrittura.
+- Controlla che `allowed-tools` nel subagent includa `Write` e `Edit`.
+- Se il mapping causa sostituzioni parziali, modifica le regole in `migration-rules.json` (usa stringhe più specifiche).
+
+### Validazione fallisce
+
+**Sintomo**: `validator` restituisce errori di sintassi o test.
+
+**Soluzioni**:
+- Controlla l’output JSON: `errors` contiene riga e messaggio.
+- Correggi manualmente il file o affina le regole di migrazione.
+- Aggiungi un passo di validazione intermedia nel flusso di orchestrazione.
+
+### Conflitti con altre skill o configurazioni
+
+**Sintomo**: Comportamento inatteso, la skill non viene chiamata o interferisce con altre.
+
+**Soluzioni**:
+- Dai priorità esplicita: “Usa solo la skill api-migration”.
+- Rimuovi temporaneamente altre skill dalla cartella `.claude/skills/`.
+- In ambiente enterprise, verifica le impostazioni gestite.
+
+### Debug generale
+
+- **Monitora i log**: Claude Code produce output dettagliato con `--verbose`.
+- **Chiedi auto-riflessione**: “Cosa è andato storto nella migrazione? Spiega i passi che hai seguito.”
+- **Itera**: Migliora la skill basandoti sul feedback delle esecuzioni reali.
 
 ## Roadmap e contributi
 
-- [ ] Integrazione con Claude Code reale (non solo simulazione).
-- [ ] Supporto per più linguaggi (Java, Go).
-- [ ] Plugin per Claude Code marketplace.
+- [ ] Integrazione completa con Claude Code (non solo simulazione).
+- [ ] Supporto per più linguaggi (Java, Go, TypeScript).
+- [ ] Plugin pubblicato su marketplace Anthropic.
 
 Contributi sono benvenuti: fork e pull request.
 
