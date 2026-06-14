@@ -1,10 +1,5 @@
 # 🦾 MigraAPI – Claude Agent per migrazione automatica di API
 
-![Claude Skills](https://img.shields.io/badge/Claude_Skills-5A3E2B?style=flat-square> Agente AI basato sulogo=anthropic> Agente AI basato sulogoColor=white)
-![Subagents](https://img.shields.io/badge/Subagents-7B2D8E?style=flat-square> Agente AI basato sulogo=anthropic)
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
-![License](https://img.shields.io/github/license/tuo-username/MigraAPI)
-
 > Agente AI basato su **Claude Skills** e **Subagents** (Anthropic) che migra codice da vecchia API a nuova API in modo automatico, sicuro e scalabile.
 
 ## 📌 Indice
