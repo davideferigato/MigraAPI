@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude / Agents (logs temporanei)
+.claude/agent_logs/
+*.log
+
+# Output di test o migrazione temporanea
+temp_*
+*.tmp
