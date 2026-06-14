@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "description": "Mapping from deprecated API to new API for Python and JavaScript",
+  "rules": [
+    {
+      "language": "python",
+      "old": "old_api.get_user",
+      "new": "new_api.fetch_user_by_id",
+      "type": "method"
+    },
+    {
+      "language": "python",
+      "old": "old_api.fetch_posts",
+      "new": "new_api.list_posts_by_user",
+      "type": "method"
+    },
+    {
+      "language": "python",
+      "old": "from old_api import Client",
+      "new": "from new_api import Client",
+      "type": "import"
+    },
+    {
+      "language": "javascript",
+      "old": "oldApi.getUser",
+      "new": "newApi.getUserById",
+      "type": "method"
+    },
+    {
+      "language": "javascript",
+      "old": "oldApi.fetchPosts",
+      "new": "newApi.getUserPosts",
+      "type": "method"
+    },
+    {
+      "language": "javascript",
+      "old": "require('old-api')",
+      "new": "require('new-api')",
+      "type": "import"
+    }
+  ]
+}
