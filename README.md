@@ -1,4 +1,4 @@
-# 🐝 MigraAPI – Claude Agent for Automated API Migration
+# 🐝 MigraAPI (Claude Agent)
 
 ![Claude Skills](https://img.shields.io/badge/Claude_Skills-5A3E2B?style=flat-square&logo=anthropic&logoColor=white)
 ![Subagents](https://img.shields.io/badge/Subagents-7B2D8E?style=flat-square&logo=anthropic)
