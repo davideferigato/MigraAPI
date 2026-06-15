@@ -1,4 +1,4 @@
-# 🦾 MigraAPI – Claude Agent for Automated API Migration
+# 🐝 MigraAPI – Claude Agent for Automated API Migration
 
 ![Claude Skills](https://img.shields.io/badge/Claude_Skills-5A3E2B?style=flat-square&logo=anthropic&logoColor=white)
 ![Subagents](https://img.shields.io/badge/Subagents-7B2D8E?style=flat-square&logo=anthropic)
@@ -21,7 +21,6 @@
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
-- [License](#license)
 
 ## Introduction
 
@@ -197,6 +196,3 @@ python tests/test_migration.py
 - [ ] Support more languages (Java, Go, TypeScript).
 - [ ] Publish as a plugin on Anthropic marketplace.
 
-## License
-
-MIT (see [LICENSE](LICENSE) file).
