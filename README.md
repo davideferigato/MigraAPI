@@ -12,6 +12,7 @@
 ![Anthropic](https://img.shields.io/badge/Anthropic-Claude-5A3E2B?logo=anthropic)
 ![Agent Skills](https://img.shields.io/badge/Agent_Skills-v1.0-5A3E2B)
 ![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)
+[![DOI](https://zenodo.org/badge/1269595514.svg)](https://doi.org/10.5281/zenodo.20709818)
 
 > AI agent based on **Claude Skills** and **Subagents** (Anthropic) that automatically migrates code from a deprecated API to a new API.
 
