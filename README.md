@@ -25,8 +25,8 @@
   <img src="https://img.shields.io/badge/Sampling-Advanced-purple" alt="Sampling"/>
   <img src="https://img.shields.io/badge/Progress_Notifications-Advanced-orange" alt="Progress Notifications"/>
   <img src="https://img.shields.io/badge/Roots-Permission_Model-2ea44f" alt="Roots"/>
-  <!-- DOI (sostituisci con il tuo DOI reale) -->
-  <a href="https://doi.org/10.5281/zenodo.XXXXXXX"><img src="https://zenodo.org/badge/1269595514.svg" alt="DOI"/></a>
+  <!-- DOI  -->
+  <a href="https://doi.org/10.5281/zenodo.20709818"><img src="https://zenodo.org/badge/1269595514.svg" alt="DOI"></a>
 </p>
 
 > **AI agent based on Claude Skills, Subagents, and MCP Server (Anthropic) that automatically migrates code from a deprecated API to a new API.**
