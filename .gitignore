@@ -41,3 +41,7 @@ output.txt
 # Backup files
 *.backup
 *.bak
+
+# MCP server runtime
+.mcp_cache/
+mcp_server/__pycache__/
