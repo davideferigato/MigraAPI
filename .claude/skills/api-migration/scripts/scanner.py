@@ -33,6 +33,11 @@ EXTENSION_MAP = {
 }
 
 def scan_file(file_path):
+    import sys
+    lang = EXTENSION_MAP.get(file_path.suffix.lower())
+    if not lang:
+        sys.stderr.write(f"WARNING: Unsupported extension {file_path.suffix} for {file_path}\n")
+        return None
     """Scan a single file. Return dict with path and occurrences."""
     lang = EXTENSION_MAP.get(file_path.suffix.lower())
     if not lang:

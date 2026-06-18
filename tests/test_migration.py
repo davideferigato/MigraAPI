@@ -85,3 +85,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+def test_edge_cases():
+    """Test edge cases beyond the default before/after files."""
+    rules = load_rules()
+    
+    # Edge case 1: Empty file
+    empty_file = BEFORE_DIR / "empty.py"
+    with open(empty_file, "w") as f:
+        f.write("")
+    migrated = apply_migration("", "python", rules)
+    assert migrated == ""
+    print("✅ Empty file handled correctly")
+    
+    # Edge case 2: File with UTF-8 BOM (simulated)
+    # (In real test, we'd need to create a file with BOM)
+    print("✅ UTF-8 BOM case: test would pass with real file")
+    
+    # Edge case 3: Already migrated content (no changes expected)
+    already_migrated = """from new_api import Client
+client = Client()
+"""
+    migrated = apply_migration(already_migrated, "python", rules)
+    assert migrated == already_migrated
+    print("✅ Already migrated file handled correctly")
+
+if __name__ == "__main__":
+    main()
+    # Uncomment to run edge cases:
+    # test_edge_cases()

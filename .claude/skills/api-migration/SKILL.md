@@ -46,3 +46,21 @@ Only read tools plus `scanner.py` execution. Writing is delegated to subagents w
 - Skill not activating? Check `name`/`description` match user request.
 - Scanner fails? Ensure Python 3.9+ and `re` module (built-in).
 - No occurrences? Verify regex patterns against actual code.
+
+## Progressive Disclosure – Level 3 (Lazy Loading)
+
+This skill supports on-demand loading of additional context to minimize token usage:
+
+- **`migration-rules.json`**: Load ONLY when processing a new language or when patterns are unclear.
+- **`regex-patterns.md`**: Load ONLY if `scanner.py` returns unexpected results (e.g., false negatives).
+- **`scripts/scanner.py`**: Executed via Bash – does NOT consume context window.
+
+### Loading strategy
+```
+if task.language not in cached_rules:
+    load("migration-rules.json")
+    cache.append(language)
+if scanner_results are suspicious or incomplete:
+    load("regex-patterns.md")
+    re-run scanner with updated patterns
+```

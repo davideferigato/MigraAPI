@@ -1,0 +1,33 @@
+{
+  "name": "migrapi",
+  "version": "1.0.0",
+  "description": "Claude Agent Skill for automated API migration in Python and JavaScript codebases",
+  "author": "Davide Ferigato",
+  "license": "MIT",
+  "repository": "https://github.com/davideFerigato/MigraAPI",
+  "tags": ["api-migration", "claude-skills", "subagents", "anthropic"],
+  "skills": [
+    {
+      "path": ".claude/skills/api-migration",
+      "name": "api-migration",
+      "description": "Migrates deprecated API calls to a new API version"
+    }
+  ],
+  "agents": [
+    {
+      "path": ".claude/agents/scanner.md",
+      "name": "scanner",
+      "description": "Analyzes file for deprecated API calls"
+    },
+    {
+      "path": ".claude/agents/rewriter.md",
+      "name": "rewriter",
+      "description": "Applies migration changes to a file"
+    },
+    {
+      "path": ".claude/agents/validator.md",
+      "name": "validator",
+      "description": "Validates migrated file syntax"
+    }
+  ]
+}
