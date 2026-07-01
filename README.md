@@ -6,13 +6,13 @@
 
 <p align="center">
   <!-- Badge principali -->
-  <a href="https://github.com/davideFerigato/MigraAPI"><img src="https://img.shields.io/badge/Claude_Skills-5A3E2B?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Skills"/></a>
-  <a href="https://github.com/davideFerigato/MigraAPI"><img src="https://img.shields.io/badge/Subagents-7B2D8E?style=flat-square&logo=anthropic" alt="Subagents"/></a>
-  <a href="https://github.com/davideFerigato/MigraAPI"><img src="https://img.shields.io/badge/Anthropic-Claude-5A3E2B?logo=anthropic" alt="Anthropic"/></a>
-  <a href="https://github.com/davideFerigato/MigraAPI"><img src="https://img.shields.io/badge/Agent_Skills-v1.0-5A3E2B" alt="Agent Skills"/></a>
+  <a href="https://github.com/davideferigato/MigraAPI"><img src="https://img.shields.io/badge/Claude_Skills-5A3E2B?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Skills"/></a>
+  <a href="https://github.com/davideferigato/MigraAPI"><img src="https://img.shields.io/badge/Subagents-7B2D8E?style=flat-square&logo=anthropic" alt="Subagents"/></a>
+  <a href="https://github.com/davideferigato/MigraAPI"><img src="https://img.shields.io/badge/Anthropic-Claude-5A3E2B?logo=anthropic" alt="Anthropic"/></a>
+  <a href="https://github.com/davideferigato/MigraAPI"><img src="https://img.shields.io/badge/Agent_Skills-v1.0-5A3E2B" alt="Agent Skills"/></a>
   <img src="https://img.shields.io/badge/Python-3.9%2B-blue" alt="Python"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/>
-  <a href="https://github.com/davideFerigato/MigraAPI/actions/workflows/ci.yml"><img src="https://github.com/davideFerigato/MigraAPI/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
+  <a href="https://github.com/davideferigato/MigraAPI/actions/workflows/ci.yml"><img src="https://github.com/davideferigato/MigraAPI/actions/workflows/ci.yml/badge.svg" alt="CI"/></a>
   <img src="https://img.shields.io/badge/code%20style-ruff-000000.svg" alt="Code style"/>
   <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white" alt="Pre-commit"/>
   <img src="https://img.shields.io/badge/Maintenance-yes-green" alt="Maintenance"/>
@@ -203,7 +203,7 @@ For detailed MCP documentation, see [`docs/mcp.md`](docs/mcp.md).
 ## Installation
 
 ```bash
-git clone https://github.com/davideFerigato/MigraAPI
+git clone https://github.com/davideferigato/MigraAPI
 cd MigraAPI
 # No external dependencies – all standard
 ```

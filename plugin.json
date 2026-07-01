@@ -4,7 +4,7 @@
   "description": "Claude Agent Skill for automated API migration in Python and JavaScript codebases",
   "author": "Davide Ferigato",
   "license": "MIT",
-  "repository": "https://github.com/davideFerigato/MigraAPI",
+  "repository": "https://github.com/davideferigato/MigraAPI",
   "tags": ["api-migration", "claude-skills", "subagents", "anthropic"],
   "skills": [
     {

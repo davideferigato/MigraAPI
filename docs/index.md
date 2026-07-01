@@ -6,7 +6,7 @@ MigraAPI is a demonstration project that implements **Claude Agent Skills** and 
 
 ## Quick links
 
-- [GitHub Repository](https://github.com/davideFerigato/MigraAPI)
+- [GitHub Repository](https://github.com/davideferigato/MigraAPI)
 - [Architecture Overview](architecture.md)
 - [Subagents Design](subagents.md)
 - [Contributing Guide](contributing.md)
@@ -22,7 +22,7 @@ MigraAPI is a demonstration project that implements **Claude Agent Skills** and 
 Clone the repository and run the demo:
 
 ```bash
-git clone https://github.com/davideFerigato/MigraAPI
+git clone https://github.com/davideferigato/MigraAPI
 cd MigraAPI
 ./demo-script.sh
 ```
