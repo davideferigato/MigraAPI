@@ -4,7 +4,7 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 Please be respectful, constructive, and kind.
 
-For any concerns, please contact the maintainers at [davide.ferigato@example.com](mailto:davide.ferigato@example.com).
+For any concerns, please contact the maintainers at [d.m.f.s@outlook.it](mailto:d.m.f.s@outlook.it).
 
 ## Our Standards
 
