@@ -272,7 +272,7 @@ To package MigraAPI as a Claude Code plugin:
    /plugin install migrapi@your-org/skills
    ```
 
-See [`plugin.json`](plugin.json) for metadata.
+See [`plugin.json`](.claude-plugin/plugin.json) for metadata.
 
 ---
 
