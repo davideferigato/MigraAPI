@@ -8,7 +8,7 @@ Only the latest commit on `main` is supported (this is a demonstration project).
 
 If you discover a security vulnerability, please **do not** open a public issue.
 
-Send a private email to: **davide.ferigato@example.com** (replace with real email).
+Send a private email to: **d.m.f.s@outlook.it** (replace with real email).
 
 We will acknowledge receipt within **48 hours** and aim to resolve within **14 days**.
 
